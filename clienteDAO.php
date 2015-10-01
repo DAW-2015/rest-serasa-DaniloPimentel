@@ -7,12 +7,12 @@ class ClienteDAO
 
   public static function getClienteByCPF($cpf) {
     $connection = Connection::getConnection();
-    $sql = "SELECT * FROM clientes WHERE cpf=$cpf";
+    $sql = "SELECT * FROM serasa_clientes WHERE cpf=$cpf";
     $result  = mysqli_query($connection, $sql);
     $cliente = mysqli_fetch_object($result);
 
     //recupera cidade do cliente
-    $sql = "SELECT * FROM cidades WHERE id=$cliente->cidades_id";
+    $sql = "SELECT * FROM serasa_cidades WHERE id=$cliente->cidades_id";
     $result = mysqli_query($connection, $sql);
     $cliente->cidade =  mysqli_fetch_object($result);
 
@@ -23,7 +23,7 @@ class ClienteDAO
   public static function getAll()
   {
     $connection = Connection::getConnection();
-    $sql = "SELECT * FROM clientes";
+    $sql = "SELECT * FROM serasa_clientes";
 
     // recupera todos os clientes
     $result  = mysqli_query($connection, $sql);
@@ -39,7 +39,7 @@ class ClienteDAO
 
   public static function updateCliente($cliente, $id) {
     $connection = Connection::getConnection();
-    $sql = "UPDATE clientes SET cpf=$cliente->cpf, nome='$cliente->nome', cidades_id=$cliente->cidades_id WHERE id=$id";
+    $sql = "UPDATE serasa_clientes SET cpf=$cliente->cpf, nome='$cliente->nome', cidades_id=$cliente->cidades_id WHERE id=$id";
     $result  = mysqli_query($connection, $sql);
 
     $clienteAtualizado = ClienteDAO::getClienteByCPF($cliente->cpf);
@@ -49,7 +49,7 @@ class ClienteDAO
 
   public static function deleteCliente($id) {
     $connection = Connection::getConnection();
-    $sql = "DELETE FROM clientes WHERE id=$id";
+    $sql = "DELETE FROM serasa_clientes WHERE id=$id";
     $result  = mysqli_query($connection, $sql);
 
     if ($result === FALSE) {
@@ -62,7 +62,7 @@ class ClienteDAO
 
   public static function addCliente($cliente) {
     $connection = Connection::getConnection();
-    $sql = "INSERT INTO clientes (cpf, nome, cidades_id) VALUES ($cliente->cpf, '$cliente->nome', $cliente->cidades_id)";
+    $sql = "INSERT INTO serasa_clientes (cpf, nome, cidades_id) VALUES ($cliente->cpf, '$cliente->nome', $cliente->cidades_id)";
     $result  = mysqli_query($connection, $sql);
 
     $novoCliente = ClienteDAO::getClienteByCPF($cliente->cpf);

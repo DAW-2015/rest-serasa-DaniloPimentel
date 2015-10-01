@@ -9,6 +9,9 @@ class ClienteDAO
     $connection = Connection::getConnection();
     $sql = "SELECT * FROM serasa_clientes WHERE cpf=$cpf";
     $result  = mysqli_query($connection, $sql);
+    if(mysqli_num_rows($result) == 0){
+        return "Cliente not found";
+    }
     $cliente = mysqli_fetch_object($result);
 
     //recupera cidade do cliente
@@ -64,7 +67,9 @@ class ClienteDAO
     $connection = Connection::getConnection();
     $sql = "INSERT INTO serasa_clientes (cpf, nome, cidades_id) VALUES ($cliente->cpf, '$cliente->nome', $cliente->cidades_id)";
     $result  = mysqli_query($connection, $sql);
-
+    if(!$result){
+        return "Não foi possível adicionar o cliente";
+    }
     $novoCliente = ClienteDAO::getClienteByCPF($cliente->cpf);
     return $novoCliente;
   }

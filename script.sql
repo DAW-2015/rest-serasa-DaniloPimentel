@@ -9,7 +9,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- Schema serasa
 -- -----------------------------------------------------
 -- CREATE SCHEMA IF NOT EXISTS `serasa` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
--- USE `serasa` ;
+USE `daw-aluno11` ;
 
 -- -----------------------------------------------------
 -- Table `serasa_estados`

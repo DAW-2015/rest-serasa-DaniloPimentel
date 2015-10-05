@@ -46,9 +46,9 @@ $app->delete('/clientes/:id', function($id) {
 
   // verifica se houve problema na exclusão
   if ($isDeleted) {
-    echo "{'message':'Produto excluído'}";
+    echo "{'message':'Cliente excluído'}";
   } else {
-    echo "{'message':'Erro ao excluir produto'}";
+    echo "{'message':'Erro ao excluir cliente'}";
   }
 });
 

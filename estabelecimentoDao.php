@@ -2,19 +2,19 @@
 
 require 'connection.php';
 
-class EstabelecimentoDao
+class EstabelecimentoDAO
 {
 
-  public static function getEstabelecimentoById($id) {
+  public static function getEstabelecimentoByID($id) {
     $connection = Connection::getConnection();
-    $sql = "SELECT * FROM serasa_estabelecimentos WHERE id=$id";
+    $sql = "SELECT * FROM serasa_estabelecimentos WHERE id='$id';";
     $result  = mysqli_query($connection, $sql);
     if(mysqli_num_rows($result) == 0){
-        return "Estabelecimento not found";
+        return "Estabelecimento not found" . $sql;
     }
     $estabelecimento = mysqli_fetch_object($result);
 
-    //recupera cidade do cliente
+    //recupera cidade do estabelecimento
     $sql = "SELECT * FROM serasa_cidades WHERE id=$estabelecimento->cidades_id";
     $result = mysqli_query($connection, $sql);
     $estabelecimento->cidade =  mysqli_fetch_object($result);
@@ -28,7 +28,7 @@ class EstabelecimentoDao
     $connection = Connection::getConnection();
     $sql = "SELECT * FROM serasa_estabelecimentos";
 
-    // recupera todos os clientes
+    // recupera todos os estabelecimentos
     $result  = mysqli_query($connection, $sql);
     $estabelecimentos = array();
     while ($estabelecimento = mysqli_fetch_object($result)) {
@@ -45,7 +45,7 @@ class EstabelecimentoDao
     $sql = "UPDATE serasa_estabelecimentos SET nome='$estabelecimento->nome', cidades_id=$estabelecimento->cidades_id WHERE id=$id";
     $result  = mysqli_query($connection, $sql);
 
-    $estabelecimentoAtualizado = EstabelecimentoDao::getEstabelecimentoById($estabelecimento->id);
+    $estabelecimentoAtualizado = EstabelecimentoDAO::getEstabelecimentoByID($estabelecimento->id);
     return $estabelecimentoAtualizado;
   }
 
@@ -55,7 +55,7 @@ class EstabelecimentoDao
     $sql = "DELETE FROM serasa_estabelecimentos WHERE id=$id";
     $result  = mysqli_query($connection, $sql);
 
-    if ($result === FALSE) {
+    if ($result == false) {
       return false;
     } else {
       return true;
@@ -65,10 +65,13 @@ class EstabelecimentoDao
 
   public static function addEstabelecimento($estabelecimento) {
     $connection = Connection::getConnection();
-    $sql = "INSERT INTO serasa_estabelecimentos (id, nome, cidades_id) VALUES ($estabelecimento->id, '$estabelecimento->nome', $estabelecimento->cidades_id)";
+    $sql = "INSERT INTO serasa_estabelecimentos (nome, cidades_id) VALUES ('$estabelecimento->nome', '$estabelecimento->cidades_id');";
     $result  = mysqli_query($connection, $sql);
-
-    $novoEstabelecimento = EstabelecimentoDao::getEstabelecimentoById($estabelecimento->id);
+    if(!$result){
+        http_response_code(403);
+        return "Não foi possível adicionar o estabelecimento :  " . $sql;
+    }
+    $novoEstabelecimento = EstabelecimentoDAO::getEstabelecimentoByID($estabelecimento->id);
     return $novoEstabelecimento;
   }
 }

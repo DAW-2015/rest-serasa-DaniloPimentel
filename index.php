@@ -2,6 +2,7 @@
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 require 'clienteDAO.php';
+require 'estabelecimentoDAO.php';
 
 $app = new \Slim\Slim();
 $app->response()->header('Content-Type', 'application/json;charset=utf-8');
@@ -54,7 +55,7 @@ $app->delete('/clientes/:id', function($id) {
 
 $app->get('/estabelecimentos/:id', function ($id) {
   //recupera o estabelecimento
-  $estabelecimento = EstabelecimentoDAO::getEstabelecimentoById($id);
+  $estabelecimento = EstabelecimentoDAO::getEstabelecimentoByID($id);
   echo json_encode($estabelecimento);
 });
 
@@ -92,9 +93,147 @@ $app->delete('/estabelecimentos/:id', function($id) {
 
   // verifica se houve problema na exclusão
   if ($isDeleted) {
-    echo "{'message':'Produto excluído'}";
+    echo "{'message':'Estabelecimento excluído'}";
   } else {
-    echo "{'message':'Erro ao excluir produto'}";
+    echo "{'message':'Erro ao excluir estabelecimento'}";
+  }
+});
+
+$app->get('/cidades/:id', function ($id) {
+  //recupera o cidade
+  $cidade = CidadeDAO::getCidadeByID($id);
+  echo json_encode($cidade);
+});
+
+$app->get('/cidades', function() {
+  // recupera todos os cidades
+  $cidades = CidadeDAO::getAll();
+  echo json_encode($cidades);
+});
+
+$app->post('/cidades', function() {
+  // recupera o request
+  $request = \Slim\Slim::getInstance()->request();
+
+  // insere o cidade
+  $novaCidade = json_decode($request->getBody());
+  $novaCidade = CidadeDAO::addCidade($novaCidade);
+
+  echo json_encode($novaCidade);
+});
+
+$app->put('/cidades/:id', function ($id) {
+  // recupera o request
+  $request = \Slim\Slim::getInstance()->request();
+
+  // atualiza o cidade
+  $cidade = json_decode($request->getBody());
+  $cidade = CidadeDAO::updateCidade($cidade, $id);
+
+   echo json_encode($cidade);
+});
+
+$app->delete('/cidades/:id', function($id) {
+  // exclui o cidade
+  $isDeleted = CidadeDAO::deleteCidade($id);
+
+  // verifica se houve problema na exclusão
+  if ($isDeleted) {
+    echo "{'message':'Cidade excluída'}";
+  } else {
+    echo "{'message':'Erro ao excluir cidade'}";
+  }
+});
+
+$app->get('/estados/:id', function ($id) {
+  //recupera o estado
+  $estado = EstadoDAO::getEstadoByID($id);
+  echo json_encode($estado);
+});
+
+$app->get('/estados', function() {
+  // recupera todos os estados
+  $estados = EstadoDAO::getAll();
+  echo json_encode($estados);
+});
+
+$app->post('/estados', function() {
+  // recupera o request
+  $request = \Slim\Slim::getInstance()->request();
+
+  // insere o estado
+  $novoEstado = json_decode($request->getBody());
+  $novoEstado = EstadoDAO::addEstado($novoEstado);
+
+  echo json_encode($novoEstado);
+});
+
+$app->put('/estados/:id', function ($id) {
+  // recupera o request
+  $request = \Slim\Slim::getInstance()->request();
+
+  // atualiza o estado
+  $estado = json_decode($request->getBody());
+  $estado = EstadoDAO::updateEstado($estado, $id);
+
+   echo json_encode($estado);
+});
+
+$app->delete('/estados/:id', function($id) {
+  // exclui o estado
+  $isDeleted = EstadoDAO::deleteEstado($id);
+
+  // verifica se houve problema na exclusão
+  if ($isDeleted) {
+    echo "{'message':'Estado excluído'}";
+  } else {
+    echo "{'message':'Erro ao excluir estado'}";
+  }
+});
+
+$app->get('/dividas/:id', function ($id) {
+  //recupera o divida
+  $divida = EstadoDAO::getEstadoByID($id);
+  echo json_encode($divida);
+});
+
+$app->get('/dividas', function() {
+  // recupera todos os dividas
+  $dividas = EstadoDAO::getAll();
+  echo json_encode($dividas);
+});
+
+$app->post('/dividas', function() {
+  // recupera o request
+  $request = \Slim\Slim::getInstance()->request();
+
+  // insere o divida
+  $novaEstado = json_decode($request->getBody());
+  $novaEstado = EstadoDAO::addEstado($novaEstado);
+
+  echo json_encode($novaEstado);
+});
+
+$app->put('/dividas/:id', function ($id) {
+  // recupera o request
+  $request = \Slim\Slim::getInstance()->request();
+
+  // atualiza o divida
+  $divida = json_decode($request->getBody());
+  $divida = EstadoDAO::updateEstado($divida, $id);
+
+   echo json_encode($divida);
+});
+
+$app->delete('/dividas/:id', function($id) {
+  // exclui o divida
+  $isDeleted = EstadoDAO::deleteEstado($id);
+
+  // verifica se houve problema na exclusão
+  if ($isDeleted) {
+    echo "{'message':'Estado excluído'}";
+  } else {
+    echo "{'message':'Erro ao excluir divida'}";
   }
 });
 
